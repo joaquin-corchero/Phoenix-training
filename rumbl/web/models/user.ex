@@ -6,7 +6,7 @@ defmodule Rumbl.User do
     field :name, :string
     field :username, :string
     field :password, :string, virtual: true
-    field :pasword_hash, :string
+    field :password_hash, :string
 
     timestamps()
   end

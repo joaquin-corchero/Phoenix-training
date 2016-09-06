@@ -22,3 +22,4 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 ##create migration for db
 * mix phoenix.gen.html User users name:string username:string pasword_hash:string
 * mix ecto.gen.migration name_of_migration
+* mix ecto.migrate
