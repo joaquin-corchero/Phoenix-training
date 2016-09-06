@@ -18,6 +18,6 @@ node --version --> check version
 mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
 
 #Create project
-1- mix phoenix.new ProjectName
-2- mix exto.create (to add ecto)
-3- mix phoenix server (will run the project)
+- mix phoenix.new ProjectName
+- mix exto.create (to add ecto)
+- mix phoenix server (will run the project)
