@@ -6,7 +6,7 @@ defmodule Rumbl.VideoController do
   alias Rumbl.Video
 
   def action(conn, _) do
-    apply(__MODULE__, action_name(conn), [conn, conn.params, conn.assigns.current_user])      
+    apply(__MODULE__, action_name(conn), [conn, conn.params, conn.assigns.current_user])
   end
 
   def index(conn, _params) do
@@ -14,17 +14,20 @@ defmodule Rumbl.VideoController do
     render(conn, "index.html", videos: videos)
   end
 
-  def new(conn, _params) do
+  def new(conn, _params, user) do
     changeset =
-      conn.assigns.current_user
+      user
       |> build_assoc(:videos)
       |> Video.changeset(%Video{})
 
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"video" => video_params}) do
-    changeset = Video.changeset(%Video{}, video_params)
+  def create(conn, %{"video" => video_params}, user) do
+    changeset =
+      user
+      |> build_assoc(:videos)
+      |> Video.changeset(%Video{}, video_params)
 
     case Repo.insert(changeset) do
       {:ok, _video} ->
