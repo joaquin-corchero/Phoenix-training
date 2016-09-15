@@ -11,6 +11,7 @@
 # and so on) as they will fail if something goes wrong.
 alias Rumbl.Repo
 alias Rumbl.User
+alias Rumbl.Category
 
 Repo.insert!(%User{name: "Pepe", username: "pepe.gotera", password_hash: "password1"})
 Repo.insert!(%User{name: "Antonio", username: "antonio.gotera", password_hash: "password2"})
@@ -18,4 +19,8 @@ Repo.insert!(%User{name: "Juan", username: "juan.gotera", password_hash: "passwo
 
 for(u <- Rumbl.Repo.all(User)) do
   Rumbl.Repo.update!(User.registration_changeset(u, %{password: u.password_hash || "temppass"}))
+end
+
+for category <- ~w(Action Drama Romance Comedy Sci-fi) do
+  Repo.insert!(%Category{name: category})
 end

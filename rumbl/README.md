@@ -30,3 +30,4 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 * mix ecto.gen.migration name_of_migration -> after doing changes to models to create the migration
 * mix ecto.migrate name_of_migration -> execute migration
 * mix phoenix.gen.model Category categories name:string -> generates model
+* mix run priv/repo/seeds.exs -> execute seeding 
