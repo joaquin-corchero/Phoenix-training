@@ -27,6 +27,6 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 * mix phoenix.routes: allows to see the routes for the project
 
 ##ecto commands
-* mix ecto.gen.migration name_of_migration
-* mix ecto.migrate (seeding have been added to the seeds file within private)
-* mix phoenix.gen.model Category categories name:string
+* mix ecto.gen.migration name_of_migration -> after doing changes to models to create the migration
+* mix ecto.migrate name_of_migration -> execute migration
+* mix phoenix.gen.model Category categories name:string -> generates model
