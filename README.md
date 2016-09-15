@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/joaquin-corchero/Phoenix-training.svg?branch=master)](https://travis-ci.org/joaquin-corchero/Phoenix-training)
 # Phoenix-training
 Phoenix training following Programming Phoenix book
 
