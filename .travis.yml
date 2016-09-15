@@ -10,5 +10,3 @@ install:
   - mix deps.get
 script:
   - mix test
-  - ECTO_POOL=poolboy mix test.adapters
-  - ECTO_POOL=sbroker mix test.adapters
