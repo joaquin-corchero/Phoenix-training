@@ -9,7 +9,6 @@ install:
   - mix local.rebar --force
   - mix deps.get
 script:
-  - cd rumbl
   - mix test
   - ECTO_POOL=poolboy mix test.adapters
   - ECTO_POOL=sbroker mix test.adapters
