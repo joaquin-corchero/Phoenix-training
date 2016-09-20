@@ -2,15 +2,15 @@ defmodule Rumbl.TestHelpers do
   alias Rumbl.Repo
 
   def insert_user(attrs \\ %{}) do
-    changes = Dict.merge%{
+    changes = Dict.merge(%{
       name: "Some user",
       username: "user#{Base.encode16(:crypto.rand_bytes(8))}",
       password: "superSecret"
-    }
+    }, attrs)
 
     %Rumbl.User{}
     |> Rumbl.User.registration_changeset(changes)
-    |> Rumbl.insert!()
+    |> Repo.insert!()
   end
 
   def insert_video(user, attrs \\ %{}) do
