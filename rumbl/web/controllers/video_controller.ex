@@ -1,5 +1,6 @@
 defmodule Rumbl.VideoController do
   use Rumbl.Web, :controller
+  
   alias Rumbl.Video
   alias Rumbl.Category
   #will replace empty params with nil
@@ -26,12 +27,11 @@ defmodule Rumbl.VideoController do
     render(conn, "index.html", videos: videos)
   end
 
-
-
   def show(conn, %{"id" => id}, user) do
     video = Repo.get!(user_videos(user), id)
     render(conn, "show.html", video: video)
   end
+
   def new(conn, _params, user) do
     changeset =
       user
