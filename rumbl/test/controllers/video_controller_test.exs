@@ -1,4 +1,4 @@
-defmodule Rumbl.MyTest do
+defmodule Rumbl.VideoControllerTest do
   use ExUnit.Case, async: true
 
   setup do
