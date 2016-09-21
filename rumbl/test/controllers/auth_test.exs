@@ -3,9 +3,10 @@ defmodule Rumbl.AuthTest do
   alias Rumbl.Auth
 
   setup %{conn: conn} do
+    #Prepares the connection so it is populated with session...
     conn =
       conn
-      |> bypass_through(Rumbl.Router, :browser)#Prepares the connection that will be used on the tests
+      |> bypass_through(Rumbl.Router, :browser)
       |> get("/")
 
     {:ok, %{conn: conn}}
@@ -23,5 +24,15 @@ defmodule Rumbl.AuthTest do
       |> Auth.authenticate_user([])
 
     refute conn.halted
+  end
+
+  test "login puts the user in the session", %{conn: conn} do
+    login_conn =
+      conn
+      |> Auth.login(%Rumbl.User{id: 123})
+      |> send_resp(:ok, "")
+
+      next_conn = get(login_conn, "/")
+      assert get_session(next_conn, :user_id) == 123
   end
 end
