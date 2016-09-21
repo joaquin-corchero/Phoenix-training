@@ -72,11 +72,50 @@ defmodule Rumbl.VideoControllerTest do
   end
 
   @tag login_as: "max"
+  test "does not create video and renders errors when invalid", %{conn: conn} do
+    count_before = video_count(Video)
+    conn = post conn, video_path(conn, :create), video: @invalid_attrs
+    assert html_response(conn, 200) =~ "check the errors"
+    assert video_count(Video) == count_before
+  end
+
+  @tag login_as: "max"
   test "does not craete a video and renders errors when invalid", %{conn: conn, user: user} do
     count_before = video_count(Video)
     conn = post conn, video_path(conn, :create), video: @invalid_attrs
     assert video_count(Video) == count_before
     assert html_response(conn, 200) =~ "check the errors"
+  end
+
+  @tag login_as: "max"
+  test "edits shows video edit page", %{conn: conn, user: user} do
+    video = insert_video(user, @valid_attrs)
+    conn = get conn, video_path(conn, :edit, video)
+    assert html_response(conn, :ok) =~ ~r/Edit video.*#{video.title}/s
+  end
+
+  @tag login_as: "max"
+  test "updates existing video and redirects", %{conn: conn, user: user} do
+    video = insert_video(user, @valid_attrs)
+    conn = put conn, video_path(conn, :update, video), video: %{title: "New"}
+    assert html_response(conn, 302)
+    assert Repo.get(Video, video.id).title == "New"
+  end
+
+  @tag login_as: "max"
+  test "does not update invalid video", %{conn: conn, user: user} do
+    video = insert_video(user, @valid_attrs)
+    conn = put conn, video_path(conn, :update, video), video: %{title: ""}
+    assert html_response(conn, 200) =~ "check the errors"
+    assert Repo.get(Video, video.id).title == video.title
+  end
+
+  @tag login_as: "max"
+  test "deletes existing video", %{conn: conn, user: user} do
+    video = insert_video(user, @valid_attrs)
+    conn = delete conn, video_path(conn, :delete, video)
+    assert html_response(conn, 302)
+    refute Repo.get(Video, video.id)
   end
 
 end
