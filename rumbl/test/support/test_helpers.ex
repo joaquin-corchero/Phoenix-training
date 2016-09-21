@@ -2,11 +2,11 @@ defmodule Rumbl.TestHelpers do
   alias Rumbl.Repo
 
   def insert_user(attrs \\ %{}) do
-    changes = Dict.merge(%{
-      name: "Some user",
+    changes = Enum.into(attrs, %{
+      name: "Some User",
       username: "user#{Base.encode16(:crypto.rand_bytes(8))}",
-      password: "superSecret"
-    }, attrs)
+      password: "supersecret",
+    })
 
     %Rumbl.User{}
     |> Rumbl.User.registration_changeset(changes)

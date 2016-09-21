@@ -1,6 +1,8 @@
 defmodule Rumbl.VideoControllerTest do
   use Rumbl.ConnCase
   alias Rumbl.Video
+  @valid_attrs %{url: "http://youtube.be", title: "the title", description: "a nice description"}
+  @invalid_attrs %{title: "invalid title"}
 
   setup %{conn: conn} = config do
     if username = config[:login_as] do
@@ -28,6 +30,26 @@ defmodule Rumbl.VideoControllerTest do
   end
 
   @tag login_as: "max"
+  test "authorizes actions against access by other users", %{conn: conn, user: owner} do
+    video = insert_video(owner, @valid_attrs)
+    non_owner = insert_user(username: "bad man")
+    conn = assign(conn, :current_user, non_owner)
+
+    assert_error_sent :not_found, fn ->
+      get(conn, video_path(conn, :show, video))
+    end
+    assert_error_sent :not_found, fn ->
+      get(conn, video_path(conn, :edit, video))
+    end
+    assert_error_sent :not_found, fn ->
+      get(conn, video_path(conn, :update, video, video: @valid_attrs))
+    end
+    assert_error_sent :not_found, fn ->
+      get(conn, video_path(conn, :delete, video))
+    end
+  end
+
+  @tag login_as: "max"
   test "lists all user's videos on index", %{conn: conn, user: user} do
     user_video = insert_video(user, title: "first one")
     other_video = insert_video(insert_user(username: "other user"), title: "second one")
@@ -37,9 +59,6 @@ defmodule Rumbl.VideoControllerTest do
     assert String.contains?(conn.resp_body, user_video.title)
     refute String.contains?(conn.resp_body, other_video.title)
   end
-
-  @valid_attrs %{url: "http://youtube.be", title: "the title", description: "a nice description"}
-  @invalid_attrs %{title: "invalid title"}
 
   defp video_count(query) do
       Repo.one(from v in query, select: count(v.id))
